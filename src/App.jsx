@@ -1,4 +1,6 @@
 import {
+  FacebookAuthProvider,
+  GithubAuthProvider,
   GoogleAuthProvider,
   getAuth,
   signInWithPopup,
@@ -14,6 +16,8 @@ const auth = getAuth(app);
 function App() {
   const [user, setUser] = useState({});
   const provider = new GoogleAuthProvider();
+  const fbProvider = new FacebookAuthProvider();
+  const gitProvider = new GithubAuthProvider();
   const handelGoogleAuth = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -33,6 +37,27 @@ function App() {
         console.log(error);
       });
   };
+
+  const handelFacebook = () => {
+    signInWithPopup(auth, fbProvider)
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        console.log(user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const handelGithub = () => {
+    signInWithPopup(auth, gitProvider)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div className="App">
       {user.email ? (
@@ -45,6 +70,8 @@ function App() {
         <p>{user.email}</p>
         <img src={user.photoURL} alt="" />
       </div>
+      <button onClick={handelFacebook}>facebook</button>
+      <button onClick={handelGithub}>Github</button>
     </div>
   );
 }
